@@ -1,6 +1,8 @@
 // eslint-disable-next-line react/prop-types
+import React from "react"
+
 const TaskCard = ({title, dueDate, completedAtDate, assigneeName}) => {
-    const displayDate = completedAtDate  ? `Completed on: ${completedAtDate}` : `Due on: ${dueDate}`
+    const displayDate = completedAtDate.length>0  ? `Completed on: ${completedAtDate}` : `Due on: ${dueDate}`
   
     return (
       <div className='border rounded-xl mx-4 my-1  p-4 TaskItem'>
