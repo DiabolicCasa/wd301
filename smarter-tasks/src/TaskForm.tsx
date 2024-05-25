@@ -42,13 +42,18 @@ class TaskForm extends React.Component<TaskFormProps, TaskFormState> {
     this.setState({ title: "", description: "", dueDate: "", error: "" });
   };
 
-  handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    console.log(e.target.value);
-    const { name, value } = e.target;
-    this.setState({ [name]: value } as Pick<
-      TaskFormState,
-      keyof TaskFormState
-    >);
+  // handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+  //   const { name, value } = e.target;
+  //   this.setState({ [name]: value });
+  // };
+  handleTitleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    this.setState({ title: e.target.value });
+  };
+  handleDescriptionChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    this.setState({ description: e.target.value });
+  };
+  handleDateChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    this.setState({ dueDate: e.target.value });
   };
 
   render() {
@@ -61,7 +66,7 @@ class TaskForm extends React.Component<TaskFormProps, TaskFormState> {
           id="todoTitle"
           name="title"
           value={this.state.title}
-          onChange={this.handleChange}
+          onChange={this.handleTitleChange}
           className="border border-slate-300 w-full rounded-md mt-2 p-2"
         />
         <input
@@ -70,7 +75,7 @@ class TaskForm extends React.Component<TaskFormProps, TaskFormState> {
           id="todoDescription"
           name="description"
           value={this.state.description}
-          onChange={this.handleChange}
+          onChange={this.handleDescriptionChange}
           className="border border-slate-300 w-full mt-2 rounded-md p-2"
         />
 
@@ -81,7 +86,7 @@ class TaskForm extends React.Component<TaskFormProps, TaskFormState> {
           id="todoDueDate"
           name="dueDate"
           value={this.state.dueDate}
-          onChange={this.handleChange}
+          onChange={this.handleDateChange}
           className="border border-slate-300 w-full mt-2 rounded-md p-2"
         />
 
