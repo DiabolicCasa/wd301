@@ -57,6 +57,7 @@ class TaskForm extends React.Component<TaskFormProps, TaskFormState> {
         <input
           type="text"
           placeholder="Title"
+          required
           id="todoTitle"
           name="title"
           value={this.state.title}
@@ -76,6 +77,7 @@ class TaskForm extends React.Component<TaskFormProps, TaskFormState> {
         <input
           type="date"
           placeholder="Due Date"
+          required
           id="todoDueDate"
           name="dueDate"
           value={this.state.dueDate}
