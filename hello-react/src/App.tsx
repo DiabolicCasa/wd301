@@ -16,15 +16,15 @@ function App() {
 
             <div className='w-1/2 border shadow-md mx-2 rounded-xl'>
               <h2 className='p-5 font-bold text-xl '>Pending</h2>
-              <TaskCard title="Build website with static content" completedAtDate="" dueDate="10th April" assigneeName="Rohit S" />
-              <TaskCard title="Add a Blog" dueDate="22nd March" completedAtDate="" assigneeName="Rohit M" />
+              <TaskCard title="Build website with static content"  dueDate="10th April" assigneeName="Rohit S" />
+              <TaskCard title="Add a Blog" dueDate="22nd March" assigneeName="Rohit M" />
               <h3 className=" w-11/12 m-2 p-1 border " ><i className='bx bx-plus'></i> New task</h3>
             </div>
 
             <div className='w-1/2 border shadow-md mx-2 rounded-xl'>
               <h2 className='p-5 font-bold text-xl '>Done</h2>
-              <TaskCard  title="Design the mockup" dueDate="" completedAtDate="10th April" assigneeName="Rohit M" />
-              <TaskCard title="Add a Blog" dueDate="" completedAtDate="20th April" assigneeName="Ajay S" />
+              <TaskCard  title="Design the mockup"  completedAtDate="10th April" assigneeName="Rohit M" />
+              <TaskCard title="Add a Blog"  completedAtDate="20th April" assigneeName="Ajay S" />
 
             </div>
 
