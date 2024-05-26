@@ -3,7 +3,7 @@ import { TaskItem } from "./types";
 
 interface Props {
   tasks: TaskItem[];
-  deleteTask: (idx: number) => void;
+  deleteTask: (task: TaskItem) => void;
 }
 
 // class TaskList extends React.Component<Props> {
@@ -25,14 +25,16 @@ const TaskList = (props: Props) => {
       {props.tasks.map((task, idx) => (
         <li className="flex justify-between" key={idx}>
           <Task 
+            item={task}
+            removeTask={props.deleteTask}
             key={idx}
-            title={task.title}
-            description={task.description}
-            dueDate={task.dueDate}
+            // title={task.title}
+            // description={task.description}
+            // dueDate={task.dueDate}
           />
-           <button className="deleteTaskButton " onClick={()=>{props.deleteTask(idx)}}>
+           {/* <button className="deleteTaskButton " onClick={()=>{props.deleteTask(idx)}}>
         <i className="bg-red-600 rounded hover:bg-red-700 text-white p-4 bx bxs-trash"></i>
-      </button>
+      </button> */}
         </li>
       ))}
     </ul>
