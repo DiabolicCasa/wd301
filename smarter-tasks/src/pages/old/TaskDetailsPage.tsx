@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { useLocalStorage } from '../hooks/useLocalStorage';
-import { TaskItem } from '../types';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
+import { TaskItem } from '../../types';
 
 interface TaskDetailsPageParams extends Record<string, string> {
   id: string;
