@@ -12,7 +12,7 @@ function NotFound() {
         </p>
         <button
           id="backToHomeButton"
-          onClick={() => navigate("/dashboard")}
+          onClick={() => navigate("/account")}
           className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
         >
           Back to Home

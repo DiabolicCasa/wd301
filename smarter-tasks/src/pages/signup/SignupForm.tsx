@@ -31,11 +31,11 @@ const SignupForm: React.FC = () => {
       console.log('Sign-up successful');
       localStorage.setItem('authToken', res.token);
       localStorage.setItem('userData', JSON.stringify(res.user));
-      navigate("/dashboard")
+      navigate("/account")
     } catch (error) {
       console.error('Sign-up failed:', error);
     }
-    //   navigate("/dashboard");
+    //   navigate("/account");
     }
 
     return(
