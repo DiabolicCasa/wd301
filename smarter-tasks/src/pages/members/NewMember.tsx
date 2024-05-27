@@ -33,12 +33,16 @@ const NewMember = () => {
   };
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const { name, email, password } = data;
-  
+
     // Next, I'll call the addMember function with three arguments:
     // `dispatchMembers` and an object with `name`, `email`, and `password` attributes.
     // As it's an async function, we will await for the response.
-    const response = await addMember(dispatchMembers, { name, email, password });
-  
+    const response = await addMember(dispatchMembers, {
+      name,
+      email,
+      password,
+    });
+
     // Then depending on response, I'll either close the modal...
     if (response.ok) {
       setIsOpen(false);
@@ -125,13 +129,13 @@ const NewMember = () => {
                       {errors.password && <span>This field is required</span>}
                       <button
                         type="submit"
+                        id="create-member-btn"
                         className="inline-flex justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 mr-2 text-sm font-medium text-white hover:bg-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                       >
                         Submit
                       </button>
                       <button
                         type="submit"
-                        id="create-member-btn"
                         onClick={closeModal}
                         className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                       >
