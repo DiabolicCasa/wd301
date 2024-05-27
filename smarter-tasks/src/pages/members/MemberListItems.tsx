@@ -42,7 +42,7 @@ export default function MemberListItems() {
             </h5>
             <h6 className="mb-2  tracking-tight  text-black">{member.email}</h6>
           </div>
-          <button onClick={()=>{handleDelete(member.id)}} className="bg-red-500 m-2 rounded-sm shadow text-white p-2"><i className='bx bxs-trash-alt'></i></button>
+          <button onClick={()=>{handleDelete(member.id)}} className="bg-red-500  member  m-2 rounded-sm shadow text-white p-2"><i className='bx bxs-trash-alt'></i></button>
         </div>
       ))}
     </>
