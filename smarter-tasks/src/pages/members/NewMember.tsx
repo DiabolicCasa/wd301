@@ -1,66 +1,64 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-
-// Then I'll import the useProjectsDispatch hook from projects context
-// import { useProjectsDispatch } from "../../context/projects/context";
-import { useMembersDispatch } from "../../context/members/context";
 import { addMember } from "../../context/members/actions";
+import { useMembersDispatch } from "../../context/members/context";
+
 type Inputs = {
   name: string;
   email: string;
   password: string;
 };
+
 const NewMember = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [error] = useState(null);
 
-  // Next, I'll add a new state to handle errors.
-  const [error, setError] = useState(null);
-
-  // Then I'll call the useProjectsDispatch function to get the dispatch function
-  // for projects
   const dispatchMembers = useMembersDispatch();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
+
   const closeModal = () => {
     setIsOpen(false);
   };
+
   const openModal = () => {
     setIsOpen(true);
   };
+
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const { name, email, password } = data;
 
-    // Next, I'll call the addMember function with three arguments:
-    // `dispatchMembers` and an object with `name`, `email`, and `password` attributes.
-    // As it's an async function, we will await for the response.
-    const response = await addMember(dispatchMembers, {
-      name,
-      email,
-      password,
-    });
+    try {
+      const response = await addMember(dispatchMembers, {
+        name,
+        email,
+        password,
+      });
 
-    // Then depending on response, I'll either close the modal...
-    if (response.ok) {
-      setIsOpen(false);
-    } else {
-      // Or I'll set the error.
-      setError(response.error as React.SetStateAction<null>);
+      if (response.ok) {
+        setIsOpen(false);
+      }
+    } catch (error) {
+      // Handle unexpected errors here (e.g., network issues, server not reachable)
+      console.error("Unexpected error:", error);
     }
   };
+
   return (
     <>
       <button
-        id="new-member-btn"
         type="button"
         onClick={openModal}
-        className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+        id="new-member-btn"
+        className="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
       >
         New Member
       </button>
+
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeModal}>
           <Transition.Child
@@ -75,7 +73,7 @@ const NewMember = () => {
             <div className="fixed inset-0 bg-black bg-opacity-25" />
           </Transition.Child>
           <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
+            <div className="flex items-center justify-center min-h-full p-4 text-center">
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -85,59 +83,59 @@ const NewMember = () => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-md p-6 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                   <Dialog.Title
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900"
                   >
-                    Add Member
+                    Create new member
                   </Dialog.Title>
                   <div className="mt-2">
                     <form onSubmit={handleSubmit(onSubmit)}>
-                      {/* I'll show the error, if it exists. */}
+                      {/* I'll show the error, if it exists.*/}
                       {error && <span>{error}</span>}
                       <input
                         id="name"
                         type="text"
-                        placeholder="Enter name..."
+                        placeholder="Enter member name..."
                         autoFocus
                         {...register("name", { required: true })}
                         className={`w-full border rounded-md py-2 px-3 my-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue ${
                           errors.name ? "border-red-500" : ""
                         }`}
                       />
-                      {errors.name && <span>This field is required</span>}
                       <input
                         id="email"
-                        type="email"
-                        placeholder="Enter email..."
+                        type="text"
+                        placeholder="Enter member email..."
                         {...register("email", { required: true })}
                         className={`w-full border rounded-md py-2 px-3 my-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue ${
                           errors.email ? "border-red-500" : ""
                         }`}
                       />
-                      {errors.email && <span>This field is required</span>}
                       <input
                         id="password"
                         type="password"
-                        placeholder="Enter password..."
+                        placeholder="Enter member password..."
                         {...register("password", { required: true })}
                         className={`w-full border rounded-md py-2 px-3 my-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue ${
                           errors.password ? "border-red-500" : ""
                         }`}
                       />
-                      {errors.password && <span>This field is required</span>}
+                      {errors.name && <span>Name is required</span>}
+                      {errors.email && <span>Email is required</span>}
+                      {errors.password && <span>Password is required</span>}
                       <button
                         type="submit"
                         id="create-member-btn"
-                        className="inline-flex justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 mr-2 text-sm font-medium text-white hover:bg-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                        className="inline-flex justify-center px-4 py-2 mr-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                       >
                         Submit
                       </button>
                       <button
                         type="button"
                         onClick={closeModal}
-                        className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                        className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                       >
                         Cancel
                       </button>
@@ -152,4 +150,5 @@ const NewMember = () => {
     </>
   );
 };
+
 export default NewMember;
