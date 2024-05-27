@@ -5,6 +5,7 @@ import router from "./routes"
 import { ThemeContext } from "./context/theme";
 import { useContext } from "react";
 import { ProjectsProvider } from "./context/projects/context";
+import { MembersProvider } from "./context/members/context";
 // import ThemeContext from "./context/theme";
 
 const App = () => {
@@ -14,7 +15,9 @@ const App = () => {
   return (
     <div className={`h-screen w-full mx-auto py-2 ${theme === "dark" ? "dark" : ""}`}>
     <ProjectsProvider>
+      <MembersProvider>
       <RouterProvider router={router} />
+      </MembersProvider>
     </ProjectsProvider>
   </div>
   );

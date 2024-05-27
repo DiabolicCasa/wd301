@@ -5,8 +5,9 @@ import Signup from "../pages/signup";
 import AccountLayout from "../layouts/account";
 import ProtectedRoute from "./ProtectedRoute";
 import Projects from "../pages/projects";
-import Members from "../pages/members";
+
 import Logout from "../layouts/logout";
+import Members from "../pages/members";
 const router = createBrowserRouter([
   { path: "/", element: <Navigate to="/account/projects" replace /> },
 
