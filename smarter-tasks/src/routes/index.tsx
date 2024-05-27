@@ -3,10 +3,10 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 import Signin from "../pages/signin";
 import Signup from "../pages/signup";
 import AccountLayout from "../layouts/account";
-import ProtectedRoute from "./ProtectedRoute";
+import ProtectedRoute from "./ProtectedRoutes";
 import Projects from "../pages/projects";
 
-import Logout from "../layouts/logout";
+import Logout from "../pages/logout";
 import Members from "../pages/members";
 const router = createBrowserRouter([
   { path: "/", element: <Navigate to="/account/projects" replace /> },
