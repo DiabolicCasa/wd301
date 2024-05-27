@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// src/pages/projects/ProjectListItems.tsx
-import React from "react";
+
 
 // First, I'll import the useProjectsState custom hook to access projects state.
 import { useProjectsState } from "../../context/projects/context";

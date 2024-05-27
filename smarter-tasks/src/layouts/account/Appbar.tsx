@@ -1,5 +1,6 @@
-import { useState, Fragment } from 'react'
-import { Disclosure, Menu, Transition, Switch } from '@headlessui/react'
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import {  Fragment } from 'react'
+import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { UserCircleIcon } from '@heroicons/react/24/outline'
 import Logo from "../../assets/images/logo.png"
 import { Link, useLocation } from "react-router-dom"
@@ -20,7 +21,7 @@ const Appbar = () => {
     { name: 'Members', href: '/account/members', current: false },
   ]
 
-  const [enabled, setEnabled] = useState(false)
+  // const [enabled, setEnabled] = useState(false)
 
   return (
     <>
