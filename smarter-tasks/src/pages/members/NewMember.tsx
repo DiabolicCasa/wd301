@@ -54,8 +54,8 @@ const NewMember = () => {
   return (
     <>
       <button
-        type="button"
         id="new-member-btn"
+        type="button"
         onClick={openModal}
         className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
       >
@@ -97,8 +97,8 @@ const NewMember = () => {
                       {/* I'll show the error, if it exists. */}
                       {error && <span>{error}</span>}
                       <input
-                        type="text"
                         id="name"
+                        type="text"
                         placeholder="Enter name..."
                         autoFocus
                         {...register("name", { required: true })}
@@ -108,8 +108,8 @@ const NewMember = () => {
                       />
                       {errors.name && <span>This field is required</span>}
                       <input
-                        type="email"
                         id="email"
+                        type="email"
                         placeholder="Enter email..."
                         {...register("email", { required: true })}
                         className={`w-full border rounded-md py-2 px-3 my-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue ${
@@ -118,8 +118,8 @@ const NewMember = () => {
                       />
                       {errors.email && <span>This field is required</span>}
                       <input
-                        type="password"
                         id="password"
+                        type="password"
                         placeholder="Enter password..."
                         {...register("password", { required: true })}
                         className={`w-full border rounded-md py-2 px-3 my-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue ${
@@ -135,7 +135,7 @@ const NewMember = () => {
                         Submit
                       </button>
                       <button
-                        type="submit"
+                        type="button"
                         onClick={closeModal}
                         className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                       >
