@@ -1,13 +1,9 @@
-import { Fragment } from 'react'
-import { Disclosure, Menu, Transition } from '@headlessui/react'
+import { useState, Fragment } from 'react'
+import { Disclosure, Menu, Transition, Switch } from '@headlessui/react'
 import { UserCircleIcon } from '@heroicons/react/24/outline'
 import Logo from "../../assets/images/logo.png"
 import { Link, useLocation } from "react-router-dom"
 
-const userNavigation = [
-  { name: 'Profile', href: '#' },
-  { name: 'Sign out', href: '/logout' },
-]
 
 const classNames = (...classes: string[]): string => classes.filter(Boolean).join(' ');
 
@@ -23,6 +19,8 @@ const Appbar = () => {
     { name: 'Projects', href: '/account/projects', current: false },
     { name: 'Members', href: '/account/members', current: false },
   ]
+
+  const [enabled, setEnabled] = useState(false)
 
   return (
     <>
