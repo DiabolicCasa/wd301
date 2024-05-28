@@ -12,6 +12,7 @@ const ProjectDetails = () => {
   const taskDispatch = useTasksDispatch();
   const projectState = useProjectsState();
   const { projectID } = useParams();
+  
   useEffect(() => {
     if (projectID) refreshTasks(taskDispatch, projectID);
   }, [projectID, taskDispatch]);

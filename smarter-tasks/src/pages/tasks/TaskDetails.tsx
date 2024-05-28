@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import  { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import CheckIcon from "@heroicons/react/24/outline/CheckIcon";
 import { useParams, useNavigate } from "react-router-dom";
 import { useMembersState } from "../../context/members/context";
@@ -10,6 +10,11 @@ import { updateTask } from "../../context/task/actions";
 import { Dialog, Transition, Listbox } from "@headlessui/react";
 import { useProjectsState } from "../../context/projects/context";
 import { TaskDetailsPayload } from "../../context/task/types";
+import {
+  useCommentDispatch,
+  useCommentsState,
+} from "../../context/comment/context";
+import { addComment, fetchComments } from "../../context/comment/actions";
 
 type TaskFormUpdatePayload = TaskDetailsPayload & {
   selectedPerson: string;
@@ -28,8 +33,22 @@ const formatDateForPicker = (isoDate: string) => {
 const TaskDetails = () => {
   const memberState = useMembersState();
   const [isOpen, setIsOpen] = useState(true);
+  const [newComment, setNewComment] = useState("");
 
-  const { projectID, taskID } = useParams();
+  const { projectID, taskID } = useParams<{
+    projectID: string;
+    taskID: string;
+  }>();
+
+  const commentState = useCommentsState();
+  const commentDispatch = useCommentDispatch();
+
+  useEffect(() => {
+    if (projectID && taskID) {
+      fetchComments(commentDispatch, projectID, taskID);
+    }
+  }, [commentDispatch, projectID, taskID]);
+
   const navigate = useNavigate();
 
   // Extract project and task details.
@@ -68,6 +87,16 @@ const TaskDetails = () => {
     navigate("../../");
   }
 
+  const handleAddComment = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  // Clear the input field after submitting
+  if(projectID&&taskID){
+    addComment(commentDispatch,projectID,taskID,newComment)
+  }
+    setNewComment(""); 
+
+  };
+
   const onSubmit: SubmitHandler<TaskFormUpdatePayload> = async (data) => {
     const assignee = memberState?.members?.filter(
       (member) => member.name === selectedPerson
@@ -97,7 +126,7 @@ const TaskDetails = () => {
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
+            <div className="flex h-full items-center justify-center p-4 text-center">
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -107,22 +136,25 @@ const TaskDetails = () => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-4/6 h-2/3  transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                   <Dialog.Title
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900"
                   >
                     Task Details
                   </Dialog.Title>
-                  <div className="mt-2">
-                    <form onSubmit={handleSubmit(onSubmit)}>
+                  <div className="mt-2 w-full flex justify between ">
+                    <form
+                      className="w-1/2 border rounded-md  p-2 mr-2"
+                      onSubmit={handleSubmit(onSubmit)}
+                    >
                       <input
                         type="text"
                         required
                         placeholder="Enter title"
                         id="title"
                         {...register("title", { required: true })}
-                        className="w-full border rounded-md py-2 px-3 my-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue"
+                        className="w-full border rounded-md py-2 px-3 my-1 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue"
                       />
                       <input
                         type="text"
@@ -130,7 +162,7 @@ const TaskDetails = () => {
                         placeholder="Enter description"
                         id="description"
                         {...register("description", { required: true })}
-                        className="w-full border rounded-md py-2 px-3 my-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue"
+                        className="w-full border rounded-md py-2 px-3 my-1 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue"
                       />
                       <input
                         type="date"
@@ -138,7 +170,7 @@ const TaskDetails = () => {
                         placeholder="Enter due date"
                         id="dueDate"
                         {...register("dueDate", { required: true })}
-                        className="w-full border rounded-md py-2 px-3 my-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue"
+                        className="w-full border rounded-md py-2 px-3 my-1 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue"
                       />
                       <h3>
                         <strong>Assignee</strong>
@@ -188,7 +220,7 @@ const TaskDetails = () => {
                       </Listbox>
                       <button
                         type="submit"
-                        className="inline-flex justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 mr-2 text-sm font-medium text-white hover:bg-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                        className="inline-flex justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 mt-10 mr-2 text-sm font-medium text-white hover:bg-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                       >
                         Update
                       </button>
@@ -200,6 +232,63 @@ const TaskDetails = () => {
                         Cancel
                       </button>
                     </form>
+                    <div className="w-1/2 border rounded-md  p-4">
+                      {commentState.isLoading ? (
+                        "Comments Loading"
+                      ) : (
+                        <div className="h-full flex flex-col">
+                          <div className=" overflow-y-auto">
+                            {commentState.comments.length === 0 ? (
+                              <h1>No Comments</h1>
+                            ) : (
+                              <>
+                                {commentState.comments
+                                  .map((com) => (
+                                    <div
+                                      key={com.id}
+                                      className="border p-2 mb-2 rounded comment"
+                                    >
+                                      <div className="flex items-center">
+                                        <span className="font-semibold text-sm mr-2">
+                                          {com.User.name}
+                                        </span>
+                                        <span className="text-sm text-gray-400">
+                                          {new Date(
+                                            com.createdAt
+                                          ).toLocaleString()}
+                                        </span>
+                                      </div>
+                                      <p className="text-sm">{com.description}</p>
+                                    </div>
+                                  ))}
+                              </>
+                            )}
+                          </div>
+                          <div className="mt-auto">
+                            <form
+                              className="flex items-center bg-white rounded-lg "
+                              onSubmit={handleAddComment}
+                            >
+                              <textarea
+                              id="commentBox"
+                                value={newComment}
+                                onChange={(e) => setNewComment(e.target.value)}
+                                placeholder="Add a new comment..."
+                                className="flex-grow border-none bg-gray-100 rounded-md py-2 px-4 mr-4 text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-600"
+                                rows={2}
+                              />
+                              <button
+                              id="addCommentBtn"
+                                type="submit"
+                                className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2"
+                              >
+                                Add Comment
+                              </button>
+                            </form>
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
