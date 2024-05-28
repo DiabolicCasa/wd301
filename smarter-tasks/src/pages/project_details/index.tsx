@@ -9,10 +9,10 @@ const ProjectDetailsIndex: React.FC = () => {
     <>
       <TasksProvider>
         <CommentsProvider>
-          <Suspense fallback={<div className="suspense-loading">Loading...</div>}>
+          {/* <Suspense fallback={<div className="suspense-loading">Loading...</div>}> */}
             <ProjectDetails />
             <Outlet />
-          </Suspense>
+          {/* </Suspense> */}
         </CommentsProvider>
       </TasksProvider>
     </>
