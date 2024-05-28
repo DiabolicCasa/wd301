@@ -20,7 +20,7 @@ const NewTask = () => {
     register,
     handleSubmit,
     
-    formState: { errors },
+    // formState: { errors },
   } = useForm<TaskDetailsPayload>();
   const projectState = useProjectsState();
   const taskDispatch = useTasksDispatch();
